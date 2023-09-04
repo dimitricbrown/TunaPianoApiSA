@@ -33,4 +33,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Getting all artists
+app.MapGet("/api/artists", (TunaPianoDbContext db) =>
+{
+    return db.Artists.ToList();
+});
+
+// Getting all songs
+app.MapGet("/api/songs", (TunaPianoDbContext db) =>
+{
+    return db.Songs
+        .Include(s => s.Artist)
+        .ToList();
+});
+
+// Getting all genres
+app.MapGet("/api/genres", (TunaPianoDbContext db) =>
+{
+    return db.Genres.ToList();
+});
+
 app.Run();
