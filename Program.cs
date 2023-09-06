@@ -40,6 +40,19 @@ app.MapGet("/api/artists", (TunaPianoDbContext db) =>
     return db.Artists.ToList();
 });
 
+// Get a single artist, including its associated songs
+app.MapGet("/artists/{artistId}", (TunaPianoDbContext db, int id) =>
+{
+    Artists artist = db.Artists
+        .Include(a => a.Songs)
+        .FirstOrDefault(a => a.Id == id);
+    if (artist == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(artist);
+});
+
 // Create a new artist
 app.MapPost("/api/artists", (TunaPianoDbContext db, Artists artist) =>
 {
@@ -85,6 +98,21 @@ app.MapGet("/api/songs", (TunaPianoDbContext db) =>
         .ToList();
 });
 
+// Get a single song, including its associated genres and artist details
+app.MapGet("/songs/{songId}", (TunaPianoDbContext db, int id) =>
+{
+    Songs song = db.Songs
+        .Include(s => s.Artist)
+        .Include(s => s.Genres)
+        .ThenInclude(g => g.Genre)
+        .FirstOrDefault(s => s.Id == id);
+    if (song == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(song);
+});
+
 // Create a new song
 app.MapPost("/api/songs", (TunaPianoDbContext db, Songs song) =>
 {
@@ -127,6 +155,20 @@ app.MapDelete("/api/songs/{songId}", (TunaPianoDbContext db, int id) =>
 app.MapGet("/api/genres", (TunaPianoDbContext db) =>
 {
     return db.Genres.ToList();
+});
+
+// Get a single genre, including its associated songs
+app.MapGet("/genres/{genreId}", (TunaPianoDbContext db, int id) =>
+{
+    Genres genre = db.Genres
+        .Include(g => g.Songs)
+        .ThenInclude(s => s.Song)
+        .FirstOrDefault(g => g.Id == id);
+    if (genre == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(genre);
 });
 
 // Create a new genre

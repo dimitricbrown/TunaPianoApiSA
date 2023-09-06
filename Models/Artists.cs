@@ -5,8 +5,8 @@ public class Artists
 {
     public int Id { get; set; }
     [Required]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public int Age { get; set; }
-    public string Bio { get; set; }
-    List<Songs> Songs { get; set; }
+    public string? Bio { get; set; }
+    public List<Songs>? Songs { get; set; }
 }

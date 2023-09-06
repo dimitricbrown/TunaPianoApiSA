@@ -6,10 +6,10 @@ public class Songs
 {
     public int Id { get; set; }
     [Required]
-    public string Title { get; set; }
+    public string? Title { get; set; }
     public int ArtistId { get; set; }
-    public Artists Artist { get; set; }
-    public string Album { get; set; }
+    public Artists? Artist { get; set; }
+    public string? Album { get; set; }
     public int Length { get; set; }
-    List<Genres> Genres { get; set; }
+    public List<SongGenres>? Genres { get; set; }
 }

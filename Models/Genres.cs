@@ -6,6 +6,6 @@ public class Genres
 {
     public int Id { get; set; }
     [Required]
-    public string Description { get; set; }
-    List<Songs> Songs { get; set; }
+    public string? Description { get; set; }
+    public List<SongGenres>? Songs { get; set; }
 }
